@@ -1,0 +1,134 @@
+//列舉所有的二進位位元
+
+來自 <https://lms.nthu.edu.tw/course.php?courseID=37998&f=doc&cid=1897464> 
+
+#include <stdio.h>
+void show_bits(int );
+char bits[64];
+int N;
+int main(void)
+{
+    printf("Please enter the number of bits: ");
+    scanf("%d", &N);
+    bits[N] = '\0';//結尾位元數填\0
+    show_bits(0);
+    return 0;
+}
+void show_bits(int x)
+{
+    if (x==N) {
+        printf("%s\n", bits);
+    } else {
+        bits[x] = '0';
+        show_bits(x+1);
+        bits[x] = '1';
+        show_bits(x+1);
+    }
+}
+//找錢
+#include <stdio.h>
+#define N 3
+
+int value[N] = {1 ,5 ,10};
+int num[N]= {0};//global will clear the array
+
+void change(int n,int amount)
+{
+    if(amount==0){
+        for(int i=0;i<N;i++)
+            printf(" %d",num[i]);
+        printf("\n");
+    }
+    else if(amount>0&& n<N){
+    num[n]++;
+    change(n, amount -value[n]);//先從小面額開始用，當用完後
+    num[n]--;
+    change(n+1, amount);
+    }
+    else{
+
+    }
+}
+
+
+int main(void)
+{
+    int amount;
+    scanf("%d",&amount);
+    change(0,amount);
+	return 0;
+}
+
+//prefix to infix
+#include <stdio.h>
+
+/*
+prefix(find first integer to calculate )
+* + 2 3 + 4 + - 5 6 - 7 8
+=>
+*(+2 3 , + 4 + - 5 6 - 7 8)
+=>
+*(5 , + (4 ,+ - 5 6 - 7 8))
+=>
+*(5 , + (4 ,+(- 5 6 ,- 7 8)))
+=>
+*(5 , + (4 ,+(-1 ,-1)))
+=>
+*(5 , + (4 ,-2))
+=>
+*(5 , 2)
+=>
+10
+*/
+#include <stdio.h>
+#include <ctype.h>
+
+int calculate(void);
+
+int main(void)
+{
+    printf("= %d\n", calculate());
+    return 0;
+}
+
+int calculate(void)
+{
+    int c;
+    int ans;
+    int op1, op2;
+
+    c = getchar();
+    if (isspace(c)) {
+        ans = calculate();
+    } else if (c=='+') {
+        printf("(");
+        op1 = calculate();
+        printf("+");
+        op2 = calculate();
+        printf(")");
+        ans = op1 + op2;
+    } else if (c=='-') {
+        printf("(");
+        op1 = calculate();
+        printf("-");
+        op2 = calculate();
+        printf(")");
+        ans = op1 - op2;
+    } else if (c=='*') {
+        printf("(");
+        op1 = calculate();
+        printf("*");
+        op2 = calculate();
+        printf(")");
+        ans = op1 * op2;
+    } else if (isdigit(c)) {//判斷是否是數字
+        ungetc(c, stdin);
+        scanf("%d", &ans);
+        printf("%d",ans);
+    }
+
+    return ans;
+
+}
+
+
