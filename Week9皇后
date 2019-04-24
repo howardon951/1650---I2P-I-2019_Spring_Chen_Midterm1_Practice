@@ -1,0 +1,70 @@
+#include <stdio.h>
+#define N 4
+//int q[N]={3,0,2,1};
+/*
+
+  0 1 2 3
+0 0 0 0 Q
+1 Q 0 0 0
+2 0 0 Q 0
+3 0 Q 0 0
+*/
+/* q[i] 記錄的是在第 i 列 (row) 出現的皇后，要擺在第幾行 (column) */
+/* 譬如，q[] 的內容如果是 {2, 0, 3, 1}，表示四個皇后分別放在棋盤的 (0,2), (1,0), (2,3), (3,1) 四個位置 */
+
+int q[N];
+
+void place(int r);
+int valid(int r, int c);
+void show(void);
+
+int main(void)
+{
+	place(0);
+	return 0;
+}
+
+/*
+判斷目前的狀況下，如果在 row, col 位置放入新的皇后
+是否會和之前的皇后衝突
+如果是合法的放置方式 return 1;
+如果有衝突 return 0;
+*/
+int valid(int r, int c)
+{
+	int i;
+	for (i=0; i<r; i++) {
+		if (q[i]==c)return 0;
+		if (i-r==c-q[i])return 0;//右上斜率為一的情況(右上座標(i,q[i))(基準座標(r,c))
+		if (r-i==c-q[i])return 0;//左上
+	}
+	return 1;
+}
+
+void show(void)
+{
+	int i,j;
+	for (i=0;j<N;i++){
+        for(j=0;j<N;j++){
+            if (q[i]==j)printf(" Q");
+            else printf(" +");
+        }
+        printf("\n");
+	}
+	printf("\n");
+}
+
+void place(int r)
+{
+	int i,j;
+	if (r == N) {
+		show();
+	} else {
+		for (j=0; j<N; j++) {
+			if (valid(r, j)) {
+				q[r]=j;
+				place(r+1);
+			}
+		}
+	}
+}
