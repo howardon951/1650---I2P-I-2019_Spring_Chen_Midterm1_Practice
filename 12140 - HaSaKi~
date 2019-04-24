@@ -1,0 +1,45 @@
+#include<stdio.h>
+#include<string.h>
+/*
+hasahasasaki
+sa
+3
+3 9
+1 4
+2 3
+*/
+char S[1000],p[1000];
+int t,l,r,head[1000];
+int i,j,plen,Slen;
+int check(int index);
+
+int main()
+{
+    scanf("%s",&S);
+    scanf("%s",&p);
+
+    plen=strlen(p);
+    Slen=strlen(S);
+    for(i=0;i<Slen-plen+1;i++){
+            head[i+1]=head[i]+check(i);
+        }
+    //**********prepared work************
+    scanf("%d",&t);
+    while (t--)
+    {
+        scanf("%d%d",&l,&r);
+        int h=r-plen+1,b=l-1;
+        int ans =(h<=b)?0:(head[h]-head[b]);
+        printf("%d\n",ans);
+    }
+
+    return 0;
+}
+
+int check(int index)
+{
+    for(j=0;j<plen;j++){
+            if(S[index+j]!=p[j])return 0;
+        }
+    return 1;
+}
