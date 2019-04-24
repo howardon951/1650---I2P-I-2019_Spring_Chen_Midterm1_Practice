@@ -1,0 +1,25 @@
+#include<stdio.h>
+int i,n,valid;
+char a,b[1000001],p;
+
+
+int main()
+{
+//freopen("input.txt", "r", stdin);
+//freopen("output.txt", "w", stdout);
+
+    while(scanf("%d",&n)==1)
+    {
+        scanf("%s",&b);
+        p=b[0];
+        valid=1;
+        for(i=1;i<n;i++){
+            if (p!=b[i]){
+				printf("YES\n%c%c\n",p,b[i]);
+				valid=0;
+                break;
+            }
+        }
+        if(valid)printf("NO\n");
+    }
+}
