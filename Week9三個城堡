@@ -1,0 +1,63 @@
+//2019/4/16 in class
+
+#include<stdio.h>
+//三個城堡 function遞迴1
+#define N 4
+char board[N][N];
+int count;
+
+void show(void);
+int valid (int r,int c);
+
+void solve(int r)
+{
+    int i;
+
+    if (r==N){
+        show();
+    }
+    for(i=0;i<N;i++){
+      if(valid(r,i)){
+        board[r][i]=1;
+        solve(r+1);
+        board[r][i]=0; //將那個row的棋子拿回,row回復為原始狀態000
+
+      }
+    }
+}
+
+int main()
+{
+    count=0;
+    solve(0);
+
+    printf("**%d!===%d\n",N,count);
+    return 0;
+}
+
+int valid (int r,int c)
+{
+    int i;
+    int tf=1;
+    for(i=0;i<r;i++){
+        if (board[i][c]){
+            tf=0;
+            break;
+        }
+    }
+    return tf;
+}
+
+void show(void)
+{
+    int i,j;
+    for(i=0;i<N;i++){
+        for(j=0;j<N;j++){
+            if(board[i][j])printf("1");
+            else printf("0");
+        }
+        printf("\n");
+    }
+    printf("\n");
+    count++;
+}
