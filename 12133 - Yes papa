@@ -1,0 +1,39 @@
+#include<stdio.h>
+#include<string.h>
+char a[100000];
+char b[100000];
+
+
+int divide(int n){
+    if(n%2==0) return n/2;
+    else if(n%2==1) return -1;
+}
+int check(int astart, int bstart, int length){
+    int i;
+    int mid=divide(length);
+    int equal=1;
+    for(i=0;i<=length-1;i++){
+        if(a[astart+i]!=b[bstart+i]){equal=0;break;}
+    }
+    if(equal)return 1;
+    else if(length%2!=0)return 0;
+    else{
+        if(check(astart,bstart,mid)&&check(astart+mid,bstart+mid,mid)) return 1;
+        else if(check(astart,bstart+mid,mid)&&check(astart+mid,bstart,mid)) return 1;
+        else return 0;
+    }
+    return 0;
+}
+int main(void){
+    int length;
+    scanf("%s",a);
+    scanf("%s",b);
+    length=strlen(a);
+
+    int pass;
+    pass=check(0,0,length);
+    if(pass==0) printf("NO\n");
+    else if(pass==1) printf("YES\n");
+
+    return 0;
+}
