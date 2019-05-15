@@ -1,0 +1,43 @@
+#include<stdio.h>
+#define maxvalue 14
+int check_col[maxvalue],check_dslope[2*maxvalue],check_uslope[2*maxvalue];
+int n;
+int qu(int a);
+int ans;
+
+int main()
+{
+    scanf("%d",&n);
+
+    qu(0);
+    printf("%d\n",ans);
+    return 0;
+}
+
+int valid(int row ,int col)
+{
+    if (check_col[col])return 0;
+    else if(check_dslope[row-col+15])return 0;
+    else if(check_uslope[row+col])return 0;
+	return 1;
+}
+
+
+int qu(int row)
+{
+    if(row==n)ans++;
+    else{
+        for(int j=0;j<n;j++){
+            if(valid(row,j)){
+                check_col[j]=1;
+                check_dslope[row-j+15]=1;
+                check_uslope[row+j]=1;
+                qu(row+1);
+                check_col[j]=0;
+                check_dslope[row-j+15]=0;
+                check_uslope[row+j]=0;
+            }
+        }
+    }
+
+}
