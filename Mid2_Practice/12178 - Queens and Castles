@@ -1,0 +1,62 @@
+#include<stdio.h>
+#define maxvalue 9
+int qc_col[maxvalue],queen_dslope[2*maxvalue],queen_uslope[2*maxvalue];
+int castle_dslope[2*maxvalue],castle_uslope[2*maxvalue];
+int N,M;
+int qu(int row,int n,int m);
+int ans;
+
+int main()
+{
+    scanf("%d%d",&N,&M);
+
+    qu(0,N,M);
+    printf("%d\n",ans);
+    return 0;
+}
+
+int q_valid(int row ,int col)
+{
+    if (qc_col[col])return 0;
+    else if(queen_dslope[row-col+8])return 0;
+    else if(queen_uslope[row+col])return 0;
+    else if(castle_dslope[row-col+8])return 0;
+    else if(castle_uslope[row+col])return 0;
+	return 1;
+}
+int c_valid(int row ,int col)
+{
+    if (qc_col[col])return 0;
+    else if(queen_dslope[row-col+8])return 0;
+    else if(queen_uslope[row+col])return 0;
+	return 1;
+}
+
+
+int qu(int row,int n,int m)
+{
+    if(row==N+M)ans++;
+
+    for(int i=0;i<N+M;i++){
+        if(q_valid(row,i) && n>0){
+                qc_col[i]=1;
+                queen_dslope[row-i+8]=1;
+                queen_uslope[row+i]=1;
+                    qu(row+1,n-1,m);
+                qc_col[i]=0;
+                queen_dslope[row-i+8]=0;
+                queen_uslope[row+i]=0;
+        }
+        if(c_valid(row,i) && m>0){
+                qc_col[i]=1;
+                castle_dslope[row-i+8]++;
+                castle_uslope[row+i]++;
+                qu(row+1,n,m-1);
+                qc_col[i]=0;
+                castle_dslope[row-i+8]--;
+                castle_uslope[row+i]--;
+
+        }
+    }
+
+}
