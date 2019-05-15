@@ -1,0 +1,33 @@
+#include<stdio.h>
+int q,n,tmp;
+int A[1000001];
+bs(int* a,int L,int R,int target);
+
+int main()
+{
+    scanf("%d%d",&n,&q);
+
+    for(int i=0;i<n;i++){
+        scanf("%d",&A[i]);
+    }
+
+    while(q--){
+
+        scanf("%d",&tmp);
+        if(bs(A,0,n-1,tmp))printf("I know de way to your home.\n");
+        else printf("Wake up, you homeless poor.\n");
+    }
+}
+
+bs(int *a,int L,int R,int target)
+{
+
+    int mid=L+(R-L)/2;
+    if(L>R)return 0;
+    else if (a[mid]==target)return 1;
+    else if (a[mid]>target) bs(a,L,mid-1,target);
+    else bs(a,mid+1,R,target);
+
+}
+
+
